@@ -189,6 +189,20 @@ impl Kvm {
         }
     }
 
+    /// Gets the disable exits capability used to define which exits are disabled
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use kvm_ioctls::Kvm;
+    /// let kvm = Kvm::new().unwrap();
+    /// assert!(kvm.get_disable_exits_cap() >= 0);
+    /// ```
+    ///
+    pub fn get_disable_exits_cap(&self) -> usize {
+        self.check_extension_int(Cap::DisableExits) as usize
+    }
+
     /// Returns the maximum allowed memory slots per VM.
     ///
     /// KVM reports the number of available memory slots (`KVM_CAP_NR_MEMSLOTS`)
@@ -412,6 +426,13 @@ mod tests {
         // Memory related getters
         assert!(kvm.get_vcpu_mmap_size().unwrap() > 0);
         assert!(kvm.get_nr_memslots() >= 32);
+    }
+
+    #[test]
+    fn test_kvm_get_disable_exits() {
+        let kvm = Kvm::new().unwrap();
+        let disable_exits = kvm.get_disable_exits_cap();
+        assert!(disable_exits >= 0);
     }
 
     #[test]

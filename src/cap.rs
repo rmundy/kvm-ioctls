@@ -135,4 +135,5 @@ pub enum Cap {
     #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
     SplitIrqchip = KVM_CAP_SPLIT_IRQCHIP,
     ImmediateExit = KVM_CAP_IMMEDIATE_EXIT,
+    DisableExits = KVM_CAP_X86_DISABLE_EXITS,
 }
